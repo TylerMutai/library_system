@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/json-simple-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.json-api-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/HikariCP-java7-2.4.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-simple-1.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.json-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/sqlite-jdbc-3.34.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
