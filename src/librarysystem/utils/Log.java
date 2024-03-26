@@ -24,7 +24,6 @@ public class Log {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
 

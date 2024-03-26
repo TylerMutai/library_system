@@ -8,30 +8,52 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Objects;
 
 public final class Resources {
 
     public static final String ENGLISH_LANGUAGE_FILE = "english";
     public static final String RESOURCES_FOLDER = "resources";
     public static final String IMAGES_FOLDER = "images";
+    public static final String RESOURCES_FILE = "resources_selected_language.txt";
     private static final HashMap<String, Object> parsedXML = new HashMap<>();
     private static String lang = "";
 
+    public static String getLanguage() {
+        if (lang != null && lang.length() > 0) {
+            return lang;
+        }
+        // read from file
+        try (BufferedReader reader = new BufferedReader(new FileReader(RESOURCES_FILE))) {
+            lang = reader.readLine().trim().toLowerCase();
+        } catch (IOException e) {
+            // left blank in case file doesn't exist.
+        }
+        if (lang != null && lang.length() > 0) {
+            return lang;
+        }
+        return Resources.ENGLISH_LANGUAGE_FILE;
+    }
+
     public static void setLanguage(String langs) {
-        lang = langs;
+        lang = langs.toLowerCase();
+
+        // save to file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(RESOURCES_FILE, false))) {
+            writer.write(lang);
+        } catch (IOException e) {
+           // left blank in case file doesn't exist.
+        }
         loadFile();
     }
 
-    private static void loadFile() {
+    public static void loadFile() {
         DocumentBuilderFactory factory =
                 DocumentBuilderFactory.newInstance();
-        try (BufferedReader reader = new BufferedReader(new FileReader("langs/" + (lang == "" ? ENGLISH_LANGUAGE_FILE : lang) + ".xml"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("langs/" + (Objects.equals(lang, "") ? ENGLISH_LANGUAGE_FILE : lang) + ".xml"))) {
             StringBuilder xmlStringBuilder = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {

@@ -9,7 +9,7 @@
     <string name="user_should_pay_fine">User should pay a fine</string>
     <string name="keep_me_logged_in">Keep me Logged in</string>
     <string name="username_or_password_was_wrong">Your username/email or password was wrong</string>
-    <string name="register_users">Register Users</string>
+    <string name="register_users">Register users</string>
     <string name="borrow_book">Borrow a book</string>
     <string name="list_books">List Books</string>
     <string name="book_id">Book ID</string>
@@ -21,7 +21,7 @@
     <string name="book_deleted_successfully">Book deleted successfully.</string>
     <string name="books">Add Books, borrow books, return books</string>
     <string name="add_a_book">Add a book</string>
-    <string name="edit_your_details">Edit Your Details And Do other tasks</string>
+    <string name="edit_your_details">Edit your details and do other tasks</string>
     <string name="welcome">Welcome</string>
     <string name="error">Error</string>
     <string name="success">Success</string>
@@ -84,4 +84,6 @@
     <string name="password_saved_successfully">Your password was saved successfully</string>
     <string name="delete_prompt_title">Delete resource?</string>
     <string name="delete_prompt_description">Are you sure you want to delete resource?</string>
+    <string name="change_language">Change Language</string>
+    <string name="change_language_description">Pick a language to change to from the list below:</string>
 </strings>

@@ -22,6 +22,7 @@ import librarysystem.utils.Log;
 import java.util.ArrayList;
 
 public class Login extends Application {
+
     private static void handle(Stage primaryStage) {
         primaryStage.setTitle(Resources.getString("library_system"));
         //Error Message if username or password was incorrect:
@@ -189,7 +190,7 @@ public class Login extends Application {
     }
 
     public static void main(String[] args) {
-        Resources.setLanguage(Resources.ENGLISH_LANGUAGE_FILE);
+        Resources.setLanguage(Resources.getLanguage());
         Admins admins = new Admins();
         Employees employees = new Employees();
         //Check if user was already logged in.
@@ -213,11 +214,10 @@ public class Login extends Application {
 
     public static void instantiate(Stage stage) {
         handle(stage);
-
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         handle(primaryStage);
     }
 

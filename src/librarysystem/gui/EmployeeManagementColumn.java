@@ -190,19 +190,26 @@ public class EmployeeManagementColumn {
         addEmployeesButton.setOnAction(event -> {
             addEmployee();
         });
-        ObservableList<Node> editUserDetilsColumnChildren = editUserDetailsColumn.getChildren();
-        editUserDetilsColumnChildren.add(editUserDetailsLabel);
-        editUserDetilsColumnChildren.add(editUsernameButton);
-        editUserDetilsColumnChildren.add(editPasswordButton);
+        Button changeLanguageButton = new Button(Resources.getString("change_language"));
+        changeLanguageButton.setPadding(LABELS_BUTTONS);
+        changeLanguageButton.prefWidthProperty().bind(editUserDetailsColumn.widthProperty());
+        changeLanguageButton.setOnAction(event -> {
+            GuiHelpers.changeLanguage();
+        });
+        ObservableList<Node> editUserDetailsColumnChildren = editUserDetailsColumn.getChildren();
+        editUserDetailsColumnChildren.add(editUserDetailsLabel);
+        editUserDetailsColumnChildren.add(editUsernameButton);
+        editUserDetailsColumnChildren.add(editPasswordButton);
 
         // Display the list employees button if the logged-in user is an admin:
         if (theAdmins.where(theAdmins.ID_FIELD, "=", userIDLabel.getText()).size() >= 1) {
-            editUserDetilsColumnChildren.add(listEmployeesButton);
-            editUserDetilsColumnChildren.add(addEmployeesButton);
+            editUserDetailsColumnChildren.add(listEmployeesButton);
+            editUserDetailsColumnChildren.add(addEmployeesButton);
         }
+        editUserDetailsColumnChildren.add(changeLanguageButton);
 
         // Autoresize children according to parent
-        for (Node n : editUserDetilsColumnChildren) {
+        for (Node n : editUserDetailsColumnChildren) {
             VBox.setVgrow(n, Priority.ALWAYS);
         }
         editUserDetailsColumn.setAlignment(Pos.CENTER);

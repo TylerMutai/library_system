@@ -1,6 +1,7 @@
 package librarysystem.gui;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -38,7 +39,9 @@ public class Dashboard extends Application {
     static String userID = "";
     static Stage myStage;
 
-    private static void handle() {
+    public static void handle() {
+        Platform.setImplicitExit(false);
+
         // Parent root
         VBox parentVerticalLayout = new VBox();
         HBox parentHorizontalLayout = new HBox();
@@ -115,7 +118,7 @@ public class Dashboard extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         handle();
         stage.setTitle(Resources.getString("library_system"));
         myStage = stage;
