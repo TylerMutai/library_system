@@ -1,5 +1,7 @@
 package librarysystem.models;
 
+import librarysystem.gui.GuiHelpers;
+import librarysystem.resources.Resources;
 import librarysystem.utils.DatabaseConnection;
 
 import javax.json.JsonObject;
@@ -87,6 +89,12 @@ public abstract class Model {
     }
 
     public boolean deleteFromModel(String... ID) {
+        boolean res = GuiHelpers.displayConfirmationPrompt(
+                Resources.getString(""),
+                Resources.getString(""));
+        if (!res) {
+            return true;
+        }
 
         String sqlString = "Delete From " + modelName + " Where ";
         if (ID.length > 1) {
@@ -137,7 +145,7 @@ public abstract class Model {
             return false;
         }
         //Using java prepared Statements:
-        if (sqlFieldString != "") {
+        if (!Objects.equals(sqlFieldString, "")) {
             String sqlString = "create table " + modelName +
                     "(" + sqlFieldString + ")";
             try {

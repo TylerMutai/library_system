@@ -82,4 +82,6 @@
     <string name="username_saved_successfully">Your username was saved successfully</string>
     <string name="password_could_not_be_saved">Your password Could not be saved</string>
     <string name="password_saved_successfully">Your password was saved successfully</string>
+    <string name="delete_prompt_title">Delete resource?</string>
+    <string name="delete_prompt_description">Are you sure you want to delete resource?</string>
 </strings>

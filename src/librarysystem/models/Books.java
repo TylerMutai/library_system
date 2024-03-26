@@ -5,6 +5,7 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Books extends Model {
     private static final String TABLE_NAME = "Books";
@@ -19,10 +20,9 @@ public class Books extends Model {
                 admins.bookAuthors = set.getString(admins.BOOK_AUTHORS_FIELD);
                 admins.bookTotal = Integer.parseInt(set.getString(admins.BOOK_TOTAL_FIELD));
                 admins.ID = set.getString(admins.ID_FIELD);
-                Model adminsModel = admins;
-                data.add(adminsModel);
+                data.add(admins);
             }
-            if (set != null) set.close();
+            set.close();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -63,7 +63,7 @@ public class Books extends Model {
         if (this.bookAuthors.equals("") && this.bookCategory.equals("") && this.bookTitle.equals("") && this.bookTotal == 0) {
             throw new NullPointerException("You need to set at least the value of one field");
         }
-        if (this.ID == "") {
+        if (Objects.equals(this.ID, "")) {
             throw new NullPointerException("You need to at least call: where, whereAnd, all, to specify which values you'd like to update");
         }
 
@@ -88,7 +88,7 @@ public class Books extends Model {
     @Override
     public boolean save() {
         //Perform checks to ensure fields have been set correctly
-        if (bookCategory == "" || bookTitle == "" || bookAuthors.equals("")) {
+        if (Objects.equals(bookCategory, "") || Objects.equals(bookTitle, "") || bookAuthors.equals("")) {
             throw new NullPointerException("One or more field values have not been set. If you're trying to update fields, use the update method instead.");
         }
         JsonObject fieldsAndValues = null;
@@ -106,7 +106,7 @@ public class Books extends Model {
 
     @Override
     public boolean delete() {
-        if (ID == "") {
+        if (Objects.equals(ID, "")) {
             return false;
         }
         return super.deleteFromModel(ID);

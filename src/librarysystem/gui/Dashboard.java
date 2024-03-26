@@ -62,7 +62,7 @@ public class Dashboard extends Application {
         }
         parentHorizontalLayout.setSpacing(SPACING);
 
-        Label mainLabel = new Label(Resources.getString("welcome") + ": " + ((User) theModel).username);
+        Label mainLabel = new Label(" " + Resources.getString("welcome") + ": " + ((User) theModel).username);
         mainLabelHorizontalLayoutChildren.addAll(mainLabel);
         mainLabelHorizontalLayout.setStyle("-fx-border-color: black");
         mainLabelHorizontalLayout.setAlignment(Pos.CENTER);

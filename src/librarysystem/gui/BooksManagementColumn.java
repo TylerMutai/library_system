@@ -578,7 +578,7 @@ public class BooksManagementColumn {
         if (userInput.isPresent()) {
             Members members = new Members();
             ArrayList<Model> member = members.where(members.EMAIL_FIELD, "=", userInput.get());
-            if (member.size() <= 0) {
+            if (member.size() == 0) {
                 Dashboard.alertUser(
                         Resources.getString("email_does_not_exist") + ". "
                                 + Resources.getString("try_registering_user"),

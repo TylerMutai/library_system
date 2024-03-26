@@ -4,6 +4,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import java.security.SecureRandom;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -69,7 +70,7 @@ public abstract class User extends Model {
     @Override
     public boolean save() {
         //Perform checks to ensure fields have been set correctly
-        if (username == "" || firstName == "" || lastName == "" || email == "" || password == "") {
+        if (Objects.equals(username, "") || Objects.equals(firstName, "") || Objects.equals(lastName, "") || Objects.equals(email, "") || Objects.equals(password, "")) {
             throw new NullPointerException("One or more field values have not been set. If you're trying to update fields, use the update method instead.");
         }
         JsonObject fieldsAndValues = null;

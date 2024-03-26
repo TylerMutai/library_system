@@ -23,10 +23,9 @@ public class Employees extends User {
                 admins.lastName = set.getString(admins.LASTNAME_FIELD);
                 admins.password = set.getString(admins.PASSWORD_FIELD);
                 admins.ID = set.getString(admins.ID_FIELD);
-                Model adminsModel = admins;
-                data.add(adminsModel);
+                data.add(admins);
             }
-            if (set != null) set.close();
+            set.close();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
