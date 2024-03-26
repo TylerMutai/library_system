@@ -130,7 +130,7 @@ public class BooksManagementColumn {
         addBookDialog.getDialogPane().getButtonTypes().addAll(saveBookButton, ButtonType.CANCEL);
 
         // Disable Login Button until the user fills in all necessary fields
-        Node saveButton = (Node) addBookDialog.getDialogPane().lookupButton(saveBookButton);
+        Node saveButton = addBookDialog.getDialogPane().lookupButton(saveBookButton);
         saveButton.setDisable(true);
 
         bookTitleTextField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -141,7 +141,7 @@ public class BooksManagementColumn {
         });
 
         // Display dialog box as long as category isn't selected
-        ((Button) saveButton).addEventFilter(ActionEvent.ACTION, event -> {
+        saveButton.addEventFilter(ActionEvent.ACTION, event -> {
             if (bookCategoryListView.getSelectionModel().getSelectedItem() == null) {
                 alertUser(Resources.getString("book_category_not_selected"), Alert.AlertType.ERROR,
                         Resources.getString("error"));
@@ -183,7 +183,6 @@ public class BooksManagementColumn {
 
                 if (alert.getResult() == ButtonType.OK) {
                     alert.hide();
-                    return;
                 }
 
             } else {

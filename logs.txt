@@ -299,3 +299,9 @@
 [2024/01/20 16:50:54] Admin Loggin via username: baly
 [2024/01/20 16:52:41] Logged in User: baly
 [2024/01/21 10:23:17] Logged in User: baly
+[2024/02/25 19:26:48] Logged in User: baly
+[2024/02/25 19:28:01] Deleted Member johnny@gmail.com: Johnny
+[2024/03/26 15:44:51] Logged in User: baly
+[2024/03/26 15:45:32] Deleted Member jamesokello@gmail.com: James
+[2024/03/26 15:45:32] Deleted Member richardsamoei@gmail.com: Richard
+[2024/03/26 15:50:08] Saved new member: johndoe@testing.com: John

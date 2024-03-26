@@ -281,7 +281,7 @@ public class EmployeeManagementColumn {
         addUserDialog.getDialogPane().getButtonTypes().addAll(saveUserDataButton, ButtonType.CANCEL);
 
         // Disable Login Button until the user fills in all necessary fields
-        Node saveButton = (Node) addUserDialog.getDialogPane().lookupButton(saveUserDataButton);
+        Node saveButton = addUserDialog.getDialogPane().lookupButton(saveUserDataButton);
         saveButton.setDisable(true);
 
         firstNameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -301,7 +301,7 @@ public class EmployeeManagementColumn {
         });
 
         // Display dialog box as long as email is invalid
-        ((Button) saveButton).addEventFilter(ActionEvent.ACTION, event -> {
+        saveButton.addEventFilter(ActionEvent.ACTION, event -> {
             if (!isEmailValid(emailTextField.getText())) {
                 alertUser(Resources.getString("email") + " " + Resources.getString("is_invalid"), Alert.AlertType.ERROR,
                         Resources.getString("error"));
@@ -347,7 +347,6 @@ public class EmployeeManagementColumn {
 
                 if (alert.getResult() == ButtonType.OK) {
                     alert.hide();
-                    return;
                 }
 
             } else {
