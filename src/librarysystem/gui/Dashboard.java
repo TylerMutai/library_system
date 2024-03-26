@@ -27,12 +27,12 @@ import java.util.regex.Pattern;
 
 public class Dashboard extends Application {
 
-    final static double SPACING = 10;
-    final static Insets LABELS_BUTTONS = new Insets(10, 20, 10, 20);
-    final static Insets COLUMNS = new Insets(10, 0, 10, 0);
-    final static int ROW_HEIGHT = 24;
-    static Scene scene;
-    static Model theModel;
+    final public static double SPACING = 10;
+    final public static Insets LABELS_BUTTONS = new Insets(10, 20, 10, 20);
+    final public static Insets COLUMNS = new Insets(10, 0, 10, 0);
+    final public static int ROW_HEIGHT = 24;
+    static public Scene scene;
+    static public Model theModel;
     static ArrayList<String> ID = new ArrayList<>();
     static String bookID = "";
     // stores the id after the user meets minimum requirements.

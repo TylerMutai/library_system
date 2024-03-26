@@ -91,7 +91,7 @@ public class Books extends Model {
         if (Objects.equals(bookCategory, "") || Objects.equals(bookTitle, "") || bookAuthors.equals("")) {
             throw new NullPointerException("One or more field values have not been set. If you're trying to update fields, use the update method instead.");
         }
-        JsonObject fieldsAndValues = null;
+        JsonObject fieldsAndValues;
         JsonObjectBuilder builder = Json.createObjectBuilder();
         ID = generateID();
         builder.add(ID_FIELD, ID);
