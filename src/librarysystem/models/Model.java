@@ -88,6 +88,21 @@ public abstract class Model {
         return data;
     }
 
+    public ArrayList<Model> whereOr(Object... vals) {
+        ArrayList<Model> data = new ArrayList<>();
+        // Get result set:
+        ResultSet mySet = getWhereOr(vals);
+        if (!Objects.isNull(mySet))
+            data = model.process(mySet);
+        try {
+            con.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return data;
+    }
+
     public boolean deleteFromModel(String... ID) {
         boolean res = GuiHelpers.displayConfirmationPrompt(
                 Resources.getString(""),
@@ -312,6 +327,39 @@ public abstract class Model {
         return data;
     }
 
+    /**
+     * @param fieldsAndOperands Strings should be passed in the order:
+     *                          field name, the operator, the value to compare with and so on.
+     * @return
+     */
+    protected ResultSet getWhereOr(Object... fieldsAndOperands) {
+        try {
+            if (con == null || con.isClosed()) {
+                con = DatabaseConnection.getConnection();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //Bail, Since we can't possibly do anything without a database connection.
+            return null;
+        }
+        ResultSet data = null;
+        String sql = "Select * from " + modelName + " Where ";
+
+        for (int i = 0; i < fieldsAndOperands.length; i++) {
+            sql += (String) fieldsAndOperands[i] + fieldsAndOperands[i + 1];
+            i = i + 2;
+            sql += fieldsAndOperands[i] instanceof Integer ? fieldsAndOperands[i] : "'"
+                    + fieldsAndOperands[i] + "'" + blankOrOr(i, fieldsAndOperands.length);
+        }
+        try {
+            data = con.prepareStatement(sql).executeQuery();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return data;
+    }
+
     protected String comaOrBlank(int position, int length) {
         if (position == length - 1) {
             return "";
@@ -325,6 +373,14 @@ public abstract class Model {
             return "";
         } else {
             return " AND ";
+        }
+    }
+
+    private String blankOrOr(int position, int length) {
+        if (position == length - 1) {
+            return "";
+        } else {
+            return " OR ";
         }
     }
 
