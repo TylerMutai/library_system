@@ -86,4 +86,6 @@
     <string name="delete_prompt_description">Are you sure you want to delete resource?</string>
     <string name="change_language">Change Language</string>
     <string name="change_language_description">Pick a language to change to from the list below:</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </strings>

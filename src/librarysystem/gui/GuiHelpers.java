@@ -1,27 +1,28 @@
 package librarysystem.gui;
 
-import com.sun.javafx.application.PlatformImpl;
-import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
-import javafx.stage.Stage;
 import librarysystem.resources.Resources;
 
 import java.util.Optional;
 
 public class GuiHelpers {
     public static boolean displayConfirmationPrompt(String title, String message) {
-        Dialog<Boolean> confirmationPrompt = new Dialog<>();
-        confirmationPrompt.setTitle(title);
-        confirmationPrompt.setHeaderText(title);
+        Alert alert = new Alert(Alert.AlertType.WARNING, message);
+        ButtonType buttonTypeYes = new ButtonType(Resources.getString("yes"), ButtonBar.ButtonData.YES);
+        ButtonType buttonTypeNo = new ButtonType(Resources.getString("no"), ButtonBar.ButtonData.NO);
+        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+        alert.setTitle(title);
 
-        DialogPane pane = new DialogPane();
-        pane.setContentText(message);
+        Optional<ButtonType> userInput = alert.showAndWait();
+        if (userInput.isPresent()) {
+            ButtonType buttonType = userInput.get();
+            return buttonType.getButtonData() == ButtonBar.ButtonData.YES;
+        }
 
-        Optional<Boolean> userInput = confirmationPrompt.showAndWait();
-
-        return userInput.orElse(false);
+        return false;
     }
 
     public static void changeLanguage() {

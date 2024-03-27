@@ -120,10 +120,10 @@ public abstract class Model {
 
     public boolean deleteFromModel(String... ID) {
         boolean res = GuiHelpers.displayConfirmationPrompt(
-                Resources.getString(""),
-                Resources.getString(""));
+                Resources.getString("delete_prompt_title"),
+                Resources.getString("delete_prompt_description"));
         if (!res) {
-            return true;
+            return false;
         }
 
         String sqlString = "Delete From " + modelName + " Where ";
@@ -377,7 +377,7 @@ public abstract class Model {
 
     /**
      * @param fieldName Strings should be passed in the order:
-     *                          field name, IDs to check against.
+     *                  field name, IDs to check against.
      * @return
      */
     protected ResultSet getWhereIn(String fieldName, ArrayList<String> ids) {
@@ -397,7 +397,7 @@ public abstract class Model {
             sql += "'" + ids.get(i) + "'";
             sql += comaOrBlank(i, ids.size());
         }
-        sql+=")";
+        sql += ")";
         try {
             data = con.prepareStatement(sql).executeQuery();
         } catch (SQLException e) {

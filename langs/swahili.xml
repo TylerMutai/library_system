@@ -78,12 +78,16 @@
     <string name="previous_password">Nenosiri lililopita</string>
     <string name="change_password">Badilisha nenosiri lako</string>
     <string name="previous_username">Jina la mtumiaji lililopita</string>
-    <string name="username_could_not_be_saved">Jina lako la mtumiaji halikuweza kuokolewa au tayari limeshachukuliwa</string>
+    <string name="username_could_not_be_saved">Jina lako la mtumiaji halikuweza kuokolewa au tayari limeshachukuliwa
+    </string>
     <string name="username_saved_successfully">Jina lako la mtumiaji limehifadhiwa kwa mafanikio</string>
     <string name="password_could_not_be_saved">Nenosiri lako halikuweza kuokolewa</string>
     <string name="password_saved_successfully">Nenosiri lako limehifadhiwa kwa mafanikio</string>
     <string name="delete_prompt_title">Futa rasilimali?</string>
     <string name="delete_prompt_description">Una uhakika unataka kufuta rasilimali?</string>
     <string name="change_language">Badilisha Lugha</string>
-    <string name="change_language_description">Chagua lugha ya kubadilisha kutoka kwenye orodha iliyo hapa chini:</string>
+    <string name="change_language_description">Chagua lugha ya kubadilisha kutoka kwenye orodha iliyo hapa chini:
+    </string>
+    <string name="yes">Ndio</string>
+    <string name="no">Hapana</string>
 </strings>
