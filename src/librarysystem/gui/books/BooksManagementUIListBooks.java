@@ -2,11 +2,14 @@ package librarysystem.gui.books;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import librarysystem.gui.Dashboard;
 import librarysystem.models.*;
@@ -21,24 +24,26 @@ import java.util.HashSet;
 import static librarysystem.gui.Dashboard.SPACING;
 
 public class BooksManagementUIListBooks {
-    static ObservableList<String> bookIDsListViewItems;
-    static ObservableList<String> bookTitlesListViewItems;
-    static ObservableList<String> authorNamesListViewItems;
-    static ObservableList<String> bookCategoriesListViewItems;
+    static ObservableList<String> bookIDsListViewItems = FXCollections.observableArrayList(new ArrayList<>());
+    static ObservableList<String> bookTitlesListViewItems = FXCollections.observableArrayList(new ArrayList<>());
+    static ObservableList<String> authorNamesListViewItems = FXCollections.observableArrayList(new ArrayList<>());
+    static ObservableList<String> bookCategoriesListViewItems = FXCollections.observableArrayList(new ArrayList<>());
+    static ObservableList<Integer> borrowedBooksTotalListViewItems = FXCollections.observableArrayList(new ArrayList<>());
 
 
-    private static ArrayList<ObservableList<String>> getDataLists(String userID, String searchString) {
+    private static void getDataLists(String userID, String searchString) {
         ArrayList<String> IDsList = new ArrayList<>();
         ArrayList<String> bookTitlesList = new ArrayList<>();
         ArrayList<String> authorNamesList = new ArrayList<>();
         ArrayList<String> bookCategoriesList = new ArrayList<>();
+        ArrayList<Integer> borrowedBooksTotalList = new ArrayList<>();
 
         ArrayList<Model> allBooks;
         Books books = new Books();
         if (userID == null) {
             if (!searchString.isEmpty()) {
-                allBooks = books.whereOr(books.BOOK_TITLE_FIELD, "LIKE", "%" + searchString + "%",
-                        books.BOOK_AUTHORS_FIELD, "LIKE", "%" + searchString + "%");
+                allBooks = books.whereOr(books.BOOK_TITLE_FIELD, " LIKE ", "%" + searchString + "%",
+                        books.BOOK_AUTHORS_FIELD, " LIKE ", "%" + searchString + "%");
             } else {
                 allBooks = books.all();
             }
@@ -65,18 +70,17 @@ public class BooksManagementUIListBooks {
             bookTitlesList.add(booksAgain.bookTitle);
             authorNamesList.add(booksAgain.bookAuthors);
             bookCategoriesList.add(booksAgain.bookCategory);
-        }
-        bookIDsListViewItems = FXCollections.observableArrayList(IDsList);
-        bookTitlesListViewItems = FXCollections.observableArrayList(bookTitlesList);
-        authorNamesListViewItems = FXCollections.observableArrayList(authorNamesList);
-        bookCategoriesListViewItems = FXCollections.observableArrayList(bookCategoriesList);
 
-        ArrayList<ObservableList<String>> data = new ArrayList<>();
-        data.add(bookIDsListViewItems);
-        data.add(bookTitlesListViewItems);
-        data.add(authorNamesListViewItems);
-        data.add(bookCategoriesListViewItems);
-        return data;
+            BorrowedBooks borrowedBooks = new BorrowedBooks();
+            ArrayList<Model> borrowedBookTotal = borrowedBooks.where(borrowedBooks.BOOK_ID_FIELD, "=", booksAgain.ID);
+            borrowedBooksTotalList.add(borrowedBookTotal.size());
+        }
+
+        bookIDsListViewItems.setAll(IDsList);
+        bookTitlesListViewItems.setAll(bookTitlesList);
+        authorNamesListViewItems.setAll(authorNamesList);
+        bookCategoriesListViewItems.setAll(bookCategoriesList);
+        borrowedBooksTotalListViewItems.setAll(borrowedBooksTotalList);
     }
 
     public static Dialog<ListBooksReturnType> listBooks(String userID) {
@@ -88,53 +92,81 @@ public class BooksManagementUIListBooks {
         VBox bookTitlesListViewAndLabel = new VBox();
         VBox authorNamesListViewAndLabel = new VBox();
         VBox categoriesListViewAndLabel = new VBox();
+        VBox borrowedBooksListViewAndLabel = new VBox();
 
         IDsListViewAndLabel.setSpacing(SPACING);
         bookTitlesListViewAndLabel.setSpacing(SPACING);
         authorNamesListViewAndLabel.setSpacing(SPACING);
         categoriesListViewAndLabel.setSpacing(SPACING);
+        borrowedBooksListViewAndLabel.setSpacing(SPACING);
 
         ListView<String> bookIDsListView = new ListView<>();
         ListView<String> bookTitlesListView = new ListView<>();
         ListView<String> authorNamesListView = new ListView<>();
         ListView<String> categoriesListView = new ListView<>();
+        ListView<Integer> borrowedBooksTotalListView = new ListView<>();
 
         Label IDsListViewLabel = new Label("  " + Resources.getString("book_id"));
         Label bookTitlesListViewLabel = new Label("  " + Resources.getString("book_title"));
         Label authorNamesListViewLabel = new Label("  " + Resources.getString("author_names"));
         Label categoriesListViewLabel = new Label("  " + Resources.getString("book_category"));
+        Label borrowedBooskTotalListViewLabel = new Label("  " + Resources.getString("book_total"));
 
         bookIDsListView.setOrientation(Orientation.VERTICAL);
         bookTitlesListView.setOrientation(Orientation.VERTICAL);
         authorNamesListView.setOrientation(Orientation.VERTICAL);
         categoriesListView.setOrientation(Orientation.VERTICAL);
+        borrowedBooksTotalListView.setOrientation(Orientation.VERTICAL);
 
-        ArrayList<ObservableList<String>> dataList = getDataLists(userID, "");
+        bookIDsListView.setItems(bookIDsListViewItems);
+        bookTitlesListView.setItems(bookTitlesListViewItems);
+        authorNamesListView.setItems(authorNamesListViewItems);
+        categoriesListView.setItems(bookCategoriesListViewItems);
+        borrowedBooksTotalListView.setItems(borrowedBooksTotalListViewItems);
 
-        bookIDsListView.setItems(dataList.get(0));
-        bookTitlesListView.setItems(dataList.get(1));
-        authorNamesListView.setItems(dataList.get(2));
-        categoriesListView.setItems(dataList.get(3));
+        // populate list
+        getDataLists(userID, "");
 
         // This sets the initial height of the ListView:
-        bookIDsListView.setPrefHeight(dataList.get(0).size() * Dashboard.ROW_HEIGHT + 2);
-        bookTitlesListView.setPrefHeight(dataList.get(1).size() * Dashboard.ROW_HEIGHT + 2);
-        authorNamesListView.setPrefHeight(dataList.get(2).size() * Dashboard.ROW_HEIGHT + 2);
-        categoriesListView.setPrefHeight(dataList.get(3).size() * Dashboard.ROW_HEIGHT + 2);
+        bookIDsListView.setPrefHeight(bookIDsListViewItems.size() * Dashboard.ROW_HEIGHT + 2);
+        bookTitlesListView.setPrefHeight(bookTitlesListViewItems.size() * Dashboard.ROW_HEIGHT + 2);
+        authorNamesListView.setPrefHeight(authorNamesListViewItems.size() * Dashboard.ROW_HEIGHT + 2);
+        categoriesListView.setPrefHeight(bookCategoriesListViewItems.size() * Dashboard.ROW_HEIGHT + 2);
+        borrowedBooksTotalListView.setPrefHeight(bookIDsListViewItems.size() * Dashboard.ROW_HEIGHT + 2);
 
         IDsListViewAndLabel.getChildren().addAll(IDsListViewLabel, bookIDsListView);
         bookTitlesListViewAndLabel.getChildren().addAll(bookTitlesListViewLabel, bookTitlesListView);
         authorNamesListViewAndLabel.getChildren().addAll(authorNamesListViewLabel, authorNamesListView);
         categoriesListViewAndLabel.getChildren().addAll(categoriesListViewLabel, categoriesListView);
+        borrowedBooksListViewAndLabel.getChildren().addAll(borrowedBooskTotalListViewLabel, borrowedBooksTotalListView);
 
-        VBox parentLayout = new VBox();
+
         usersGridLayout.addColumn(0, IDsListViewAndLabel);
         usersGridLayout.addColumn(1, bookTitlesListViewAndLabel);
         usersGridLayout.addColumn(2, authorNamesListViewAndLabel);
         usersGridLayout.addColumn(3, categoriesListViewAndLabel);
+        usersGridLayout.addColumn(4, borrowedBooksListViewAndLabel);
+
         scrollbar.setPrefHeight(10 * Dashboard.ROW_HEIGHT + 2);
         scrollbar.setContent(usersGridLayout);
-        parentLayout.getChildren().addAll(scrollbar);
+
+        // create a search hBox
+        HBox searchViewAndLabel = new HBox();
+        searchViewAndLabel.setAlignment(Pos.CENTER);
+        TextField searchField = new TextField();
+        searchField.setPadding(new Insets(8, 24, 8, 24));
+        searchField.setAccessibleHelp(Resources.getString("search"));
+        searchField.setAccessibleText(Resources.getString("search"));
+        searchField.setPromptText(Resources.getString("search"));
+        searchField.setOnKeyTyped((keyEvent -> {
+            getDataLists(userID, searchField.getCharacters().toString());
+        }));
+        searchViewAndLabel.getChildren().add(searchField);
+        // end of create a search box
+
+        VBox parentLayout = new VBox();
+        parentLayout.setSpacing(12);
+        parentLayout.getChildren().addAll(searchViewAndLabel, scrollbar);
 
         // Display the created GUI inside a dialog box
         Dialog<ListBooksReturnType> listBooksDialog = new Dialog<>();
