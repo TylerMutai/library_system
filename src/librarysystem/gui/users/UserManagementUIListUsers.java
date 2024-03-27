@@ -19,7 +19,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import static librarysystem.gui.Dashboard.*;
+import static librarysystem.gui.Dashboard.ROW_HEIGHT;
+import static librarysystem.gui.Dashboard.SPACING;
 
 public class UserManagementUIListUsers {
     public static Dialog<ListUsersReturnType> listUsers() {
@@ -122,6 +123,7 @@ public class UserManagementUIListUsers {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        assert url != null;
         listUserDialog.setGraphic(new ImageView(url.toString()));
 
         // Multiple select in a list view:
@@ -135,16 +137,7 @@ public class UserManagementUIListUsers {
         listUserDialog.getDialogPane().getButtonTypes().addAll(deleteUserButton, cancelButton, okButton);
 
         // Store corresponding IDs to an ID variable
-        firstNamesListView.getSelectionModel().selectedIndexProperty().addListener((arg0, oldIndex, newIndex) -> {
-            selectedUsers.add(IDsListView.getItems().get(newIndex.intValue()));
-        });
-        lastNamesListView.getSelectionModel().selectedIndexProperty().addListener((arg0, oldIndex, newIndex) -> {
-            selectedUsers.add(IDsListView.getItems().get(newIndex.intValue()));
-        });
-        emailsListView.getSelectionModel().selectedIndexProperty().addListener((arg0, oldIndex, newIndex) -> {
-            selectedUsers.add(IDsListView.getItems().get(newIndex.intValue()));
-        });
-        paymentMethodsListView.getSelectionModel().selectedIndexProperty().addListener((arg0, oldIndex, newIndex) -> {
+        IDsListView.getSelectionModel().selectedIndexProperty().addListener((arg0, oldIndex, newIndex) -> {
             selectedUsers.add(IDsListView.getItems().get(newIndex.intValue()));
         });
 

@@ -50,18 +50,12 @@ public class BooksManagementUIListBooks {
         } else {
             BorrowedBooks borrowedBooks = new BorrowedBooks();
             ArrayList<Model> borrowedBooksAll = borrowedBooks.where(borrowedBooks.USER_ID_FIELD, "=", userID);
-            StringBuilder ids = new StringBuilder();
-            int count = 0;
+            ArrayList<String> ids = new ArrayList<>();
             for (Model bBook : borrowedBooksAll) {
                 BorrowedBooks _bBook = (BorrowedBooks) bBook;
-                ids.append(_bBook.BookID);
-                if (count < borrowedBooksAll.size() - 1) {
-                    ids.append(",");
-                }
-                count++;
+                ids.add(_bBook.BookID);
             }
-            ids.append(")");
-            allBooks = books.where(books.ID_FIELD, "IN (", ids.toString());
+            allBooks = books.whereIn(books.ID_FIELD, ids);
         }
 
         for (Model user : allBooks) {
@@ -191,15 +185,13 @@ public class BooksManagementUIListBooks {
         // Multiple select in a list view:
         bookIDsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        ButtonType borrowBooksButton = new ButtonType(Resources.getString("return_book"), ButtonBar.ButtonData.OK_DONE);
-        ButtonType returnBookButton = new ButtonType(Resources.getString("borrow_book"), ButtonBar.ButtonData.OK_DONE);
+        ButtonType borrowBooksButton = new ButtonType(Resources.getString("borrow_book"), ButtonBar.ButtonData.OK_DONE);
+        ButtonType returnBookButton = new ButtonType(Resources.getString("return_book"), ButtonBar.ButtonData.OK_DONE);
         ButtonType deleteBookButton = new ButtonType(Resources.getString("delete_book"), ButtonBar.ButtonData.OK_DONE);
         ButtonType cancelButton = new ButtonType(Resources.getString("cancel"), ButtonBar.ButtonData.CANCEL_CLOSE);
 
         // Dialog functionality
-        if (userID != null) {
-            listBooksDialog.getDialogPane().getButtonTypes().add(borrowBooksButton);
-        }
+        listBooksDialog.getDialogPane().getButtonTypes().add(borrowBooksButton);
         if (userID != null) {
             listBooksDialog.getDialogPane().getButtonTypes().add(returnBookButton);
         }

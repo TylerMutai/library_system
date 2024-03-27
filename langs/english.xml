@@ -10,7 +10,7 @@
     <string name="keep_me_logged_in">Keep me Logged in</string>
     <string name="username_or_password_was_wrong">Your username/email or password was wrong</string>
     <string name="register_users">Register users</string>
-    <string name="borrow_book">Borrow a book</string>
+    <string name="borrow_book">Borrow book</string>
     <string name="list_books">List Books</string>
     <string name="book_id">Book ID</string>
     <string name="book_title">Book Title</string>

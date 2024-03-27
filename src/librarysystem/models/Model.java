@@ -103,6 +103,21 @@ public abstract class Model {
         return data;
     }
 
+    public ArrayList<Model> whereIn(String fieldName, ArrayList<String> ids) {
+        ArrayList<Model> data = new ArrayList<>();
+        // Get result set:
+        ResultSet mySet = getWhereIn(fieldName, ids);
+        if (!Objects.isNull(mySet))
+            data = model.process(mySet);
+        try {
+            con.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return data;
+    }
+
     public boolean deleteFromModel(String... ID) {
         boolean res = GuiHelpers.displayConfirmationPrompt(
                 Resources.getString(""),
@@ -351,6 +366,38 @@ public abstract class Model {
             sql += fieldsAndOperands[i] instanceof Integer ? fieldsAndOperands[i] : "'"
                     + fieldsAndOperands[i] + "'" + blankOrOr(i, fieldsAndOperands.length);
         }
+        try {
+            data = con.prepareStatement(sql).executeQuery();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * @param fieldName Strings should be passed in the order:
+     *                          field name, IDs to check against.
+     * @return
+     */
+    protected ResultSet getWhereIn(String fieldName, ArrayList<String> ids) {
+        try {
+            if (con == null || con.isClosed()) {
+                con = DatabaseConnection.getConnection();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //Bail, Since we can't possibly do anything without a database connection.
+            return null;
+        }
+        ResultSet data = null;
+        String sql = "Select * from " + modelName + " Where " + fieldName + " IN (";
+
+        for (int i = 0; i < ids.size(); i++) {
+            sql += "'" + ids.get(i) + "'";
+            sql += comaOrBlank(i, ids.size());
+        }
+        sql+=")";
         try {
             data = con.prepareStatement(sql).executeQuery();
         } catch (SQLException e) {
