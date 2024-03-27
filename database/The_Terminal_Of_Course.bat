@@ -1,2 +1,1 @@
-@echo off
-cmd
+sqlite3 LibrarySystem.db
